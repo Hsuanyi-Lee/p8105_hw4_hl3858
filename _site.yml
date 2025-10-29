@@ -9,9 +9,9 @@ navbar:
       href: resume.Rmd
   right:
     - text: "GitHub"
-      href: "https://github.com/<yourname>"
+      href: "https://github.com/hl3858"
     - text: "Email"
-      href: "mailto:yourUNI@columbia.edu"
+      href: "mailto:hl3858@columbia.edu"
     - text: "LinkedIn"
       href: "https://www.linkedin.com/in/<your-linkedin>"
 output:

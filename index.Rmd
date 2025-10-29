@@ -6,3 +6,4 @@ I’m an MS student in Epidemiology.
 - Skills: R, SAS, data viz, reproducible research
 
 See my [Resume](resume.html) and projects on GitHub.
+See my [flexdashboard](dashboard.html).
