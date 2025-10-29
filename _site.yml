@@ -1,20 +1,16 @@
-name: "my-website"
+name: "p8105_hw4_hl3858"
 output_dir: "docs"
 navbar:
   title: "HsuanYi Lee"
   left:
     - text: "Home"
-      href: index.Rmd
+      href: index.html
     - text: "Resume"
-      href: resume.Rmd
+      href: resume.html
   right:
     - text: "GitHub"
-      href: "https://github.com/hl3858"
+      href: "https://github.com/hsuanyi-lee"
     - text: "Email"
       href: "mailto:hl3858@columbia.edu"
     - text: "LinkedIn"
-      href: "https://www.linkedin.com/in/<your-linkedin>"
-output:
-  html_document:
-    theme: cosmo
-    toc: false
+      href: "https://www.linkedin.com/in/hsuanyi-lee/"

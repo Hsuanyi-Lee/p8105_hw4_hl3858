@@ -1,0 +1,84 @@
+---
+title: "NY NOAA Weather Explorer (1981–2010)"
+output:
+  flexdashboard::flex_dashboard:
+    vertical_layout: scroll
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(message = FALSE, warning = TRUE, error = TRUE)
+
+library(tidyverse)
+library(plotly)
+library(lubridate)
+library(readr)
+
+csv_path <- "data/nynoaadat.csv"
+if (!file.exists(csv_path)) stop("没找到 data/nynoaadat.csv")
+
+ny_raw <- read_csv(csv_path, show_col_types = FALSE, guess_max = 1e6)
+names(ny_raw) <- tolower(names(ny_raw))
+
+required <- c("id","date","prcp","snow","snwd","tmax","tmin")
+missing <- setdiff(required, names(ny_raw))
+if (length(missing) > 0) stop(paste("CSV 缺少列:", paste(missing, collapse=", ")))
+
+ny <- ny_raw |>
+  mutate(
+    date  = as.Date(date),
+    tmax  = as.numeric(tmax) / 10,
+    tmin  = as.numeric(tmin) / 10,
+    prcp  = as.numeric(prcp) / 10,
+    year  = year(date),
+    month = month(date, label = TRUE, abbr = TRUE)
+  )
+
+daily_tmax <- ny |>
+  group_by(date) |>
+  summarize(mean_tmax = mean(tmax, na.rm = TRUE), .groups = "drop") |>
+  filter(!is.na(mean_tmax))
+
+monthly_prcp <- ny |>
+  group_by(year, month) |>
+  summarize(total_prcp = sum(prcp, na.rm = TRUE), .groups = "drop") |>
+  group_by(month) |>
+  summarize(mean_total_prcp = mean(total_prcp, na.rm = TRUE), .groups = "drop")
+
+snwd_month <- ny |>
+  filter(!is.na(snwd)) |>
+  select(month, snwd)
+
+set.seed(123)
+scatter_df <- ny |>
+  select(tmin, tmax) |>
+  filter(!is.na(tmin), !is.na(tmax)) |>
+  sample_n(10000)
+```
+
+```{r}
+p_line <- ggplot(daily_tmax, aes(x = date, y = mean_tmax)) +
+geom_line() +
+labs(x = "Date", y = "Mean daily max temp (°C)", title = "Statewide daily mean of TMAX")
+ggplotly(p_line)
+```
+
+```{r}
+p_bar <- ggplot(monthly_prcp, aes(x = month, y = mean_total_prcp)) +
+geom_col() +
+labs(x = "Month", y = "Avg total precipitation (mm)", title = "Avg monthly precipitation across years")
+ggplotly(p_bar)
+```
+
+```{r}
+p_box <- ggplot(snwd_month, aes(x = month, y = snwd)) +
+geom_boxplot() +
+labs(x = "Month", y = "Snow depth (mm)", title = "Monthly distribution of snow depth")
+ggplotly(p_box)
+```
+
+```{r}
+p_scatter <- ggplot(scatter_df, aes(x = tmin, y = tmax)) +
+geom_point(alpha = 0.3, size = 0.5) +
+labs(x = "Tmin (°C)", y = "Tmax (°C)", title = "Relationship between Tmin and Tmax")
+ggplotly(p_scatter)
+```
