@@ -2,13 +2,10 @@
 title: "NY NOAA Weather Explorer (1981–2010)"
 output:
   flexdashboard::flex_dashboard:
-    orientation: columns
     vertical_layout: scroll
 ---
 
-
 ```{r setup, include=FALSE}
-# 显示错误与警告方便调试
 knitr::opts_chunk$set(message = FALSE, warning = TRUE, error = TRUE)
 
 library(tidyverse)
@@ -16,38 +13,26 @@ library(plotly)
 library(lubridate)
 library(readr)
 
-# 1. 读取 CSV（确保放在 data/ 文件夹）
 csv_path <- "data/nynoaadat.csv"
-
-if (!file.exists(csv_path)) {
-  stop("❌ 没找到 data/nynoaadat.csv，请上传到 data 文件夹再 Knit。")
-}
+if (!file.exists(csv_path)) stop("没找到 data/nynoaadat.csv")
 
 ny_raw <- read_csv(csv_path, show_col_types = FALSE, guess_max = 1e6)
 names(ny_raw) <- tolower(names(ny_raw))
 
-cat("✅ 成功读取数据。列名：", paste(names(ny_raw), collapse = ", "), "\n")
-print(head(ny_raw, 3))
-
-required <- c("id", "date", "prcp", "snow", "snwd", "tmax", "tmin")
+required <- c("id","date","prcp","snow","snwd","tmax","tmin")
 missing <- setdiff(required, names(ny_raw))
-if (length(missing) > 0) {
-  stop(paste0("❌ 缺少列：", paste(missing, collapse = ", "),
-              "\n请确认 CSV 列名是否与 id/date/prcp/snow/snwd/tmax/tmin 一致。"))
-}
+if (length(missing) > 0) stop(paste("CSV 缺少列:", paste(missing, collapse=", ")))
 
-# 单位换算 + 添加年月
 ny <- ny_raw |>
   mutate(
-    date = as.Date(date),
-    tmax = as.numeric(tmax) / 10,
-    tmin = as.numeric(tmin) / 10,
-    prcp = as.numeric(prcp) / 10,
-    year = year(date),
+    date  = as.Date(date),
+    tmax  = as.numeric(tmax) / 10,
+    tmin  = as.numeric(tmin) / 10,
+    prcp  = as.numeric(prcp) / 10,
+    year  = year(date),
     month = month(date, label = TRUE, abbr = TRUE)
   )
 
-# 派生数据
 daily_tmax <- ny |>
   group_by(date) |>
   summarize(mean_tmax = mean(tmax, na.rm = TRUE), .groups = "drop") |>
