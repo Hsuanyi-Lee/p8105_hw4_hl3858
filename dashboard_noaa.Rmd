@@ -3,8 +3,9 @@ title: "NY NOAA Weather Explorer (1981–2010)"
 output:
   flexdashboard::flex_dashboard:
     orientation: columns
-    vertical_layout: fill
+    vertical_layout: scroll
 ---
+
 
 ```{r setup, include=FALSE}
 # 显示错误与警告方便调试
