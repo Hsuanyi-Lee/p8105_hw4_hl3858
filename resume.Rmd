@@ -1,0 +1,16 @@
+# Resume
+
+## Education
+- Columbia University, MS in Epidemiology, 2025 (expected)
+
+## Experience
+- Clinical Research Coordinator, Diabetes Trial
+  - Coordinated 88 participants, data collection, multi-team comms
+
+## Selected skills
+- R (tidyverse, ggplot2), SAS, Git/GitHub, Reproducible pipelines
+
+## Contact
+- Email: hl3858@cumc.columbia.edu
+- GitHub: https://github.com/HsuanYiLee
+- LinkedIn: https://www.linkedin.com/in/<Hsuanyilee>

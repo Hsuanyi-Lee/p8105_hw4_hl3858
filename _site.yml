@@ -1,0 +1,20 @@
+name: "my-website"
+output_dir: "docs"
+navbar:
+  title: "HsuanYi Lee"
+  left:
+    - text: "Home"
+      href: index.Rmd
+    - text: "Resume"
+      href: resume.Rmd
+  right:
+    - text: "GitHub"
+      href: "https://github.com/<yourname>"
+    - text: "Email"
+      href: "mailto:yourUNI@columbia.edu"
+    - text: "LinkedIn"
+      href: "https://www.linkedin.com/in/<your-linkedin>"
+output:
+  html_document:
+    theme: cosmo
+    toc: false

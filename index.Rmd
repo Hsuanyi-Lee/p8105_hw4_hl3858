@@ -1,0 +1,8 @@
+# Hi, I'm HsuanYi Lee
+
+Welcome to my profile
+I’m an MS student in Epidemiology.  
+- Research interests: chronic disease, cancer epi, digital health  
+- Skills: R, SAS, data viz, reproducible research
+
+See my [Resume](resume.html) and projects on GitHub.
